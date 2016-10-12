@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by Dandeljane Maraat on 12/10/2016.
  */
@@ -74,7 +76,8 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
         database.close();
     }
 
-    String[] retrieveAllVehicleData() {
+    ArrayList<String[]> retrieveAllVehicleItems() {
+        ArrayList<String[]> allVehiclesList = new ArrayList<>();
         SQLiteDatabase database = getReadableDatabase();
 
         String sql = String.format("SELECT * FROM %s", PoliceLogContract.VehicleTable.TABLE_NAME);
@@ -84,22 +87,76 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
         String[] info = new String[12];
 
         while (cursor.moveToNext()) {
-            info[0] = cursor.getString(0);  // vehicle ID
-            info[1] = cursor.getString(1);  // owner name
-            info[2] = cursor.getString(2);  // make
-            info[3] = cursor.getString(3);  // color
-            info[4] = cursor.getString(4);  // OR
-            info[5] = cursor.getString(5);  // CR
-            info[6] = cursor.getString(6);  // ENGINE NUM
-            info[7] = cursor.getString(7);  // CHASSIS NUM
-            info[8] = cursor.getString(8);  // CONTACT NUM
-            info[9] = cursor.getString(9);  // ADDRESS
-            info[10] = cursor.getString(10);  // CHECKPOINT LOC
+            info[0] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable._ID));  // vehicle ID
+            info[1] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OWNER_NAME));  // owner name
+            info[2] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_DRIVER_NAME));  // driver name
+            info[3] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_MAKE));  // make
+            info[4] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_COLOR));  // color
+            info[5] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OFFICIAL_RECEIPT));  // OR
+            info[6] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CERT_OF_REG));  // CR
+            info[7] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ENGINE_NUM));  // Engine Num
+            info[8] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHASSIS_NUM));  // CHASSIS NUM
+            info[9] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CONTACT_NUM));  // CONTACT NUM
+            info[10] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ADDRESS));  // ADDRESS
+            info[11] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHECKPOINT_LOC));  // CHECKPOINT LOC
+            allVehiclesList.add(info);
         }
 
         cursor.close();
         database.close();
 
+        return allVehiclesList;
+    }
+
+    String[] retrieveVehicleInfo(String certReg) {
+        String[] info = new String[12];
+        SQLiteDatabase db = getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = {
+                PoliceLogContract.VehicleTable._ID,
+                PoliceLogContract.VehicleTable.COL_OWNER_NAME,
+                PoliceLogContract.VehicleTable.COL_DRIVER_NAME,
+                PoliceLogContract.VehicleTable.COL_MAKE,
+                PoliceLogContract.VehicleTable.COL_COLOR,
+                PoliceLogContract.VehicleTable.COL_CHECKPOINT_LOC
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = PoliceLogContract.VehicleTable.COL_CERT_OF_REG + " = ?";
+        String[] selectionArgs = { certReg };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                PoliceLogContract.VehicleTable.COL_OWNER_NAME + " DESC";
+
+        Cursor cursor = db.query(
+                PoliceLogContract.VehicleTable.TABLE_NAME,// The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+        if (cursor.moveToFirst()) {
+            info[0] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable._ID));  // vehicle ID
+            info[1] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OWNER_NAME));  // owner name
+            info[2] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_DRIVER_NAME));  // driver name
+            info[3] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_MAKE));  // make
+            info[4] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_COLOR));  // color
+            info[5] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OFFICIAL_RECEIPT));  // OR
+            info[6] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CERT_OF_REG));  // CR
+            info[7] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ENGINE_NUM));  // Engine Num
+            info[8] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHASSIS_NUM));  // CHASSIS NUM
+            info[9] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CONTACT_NUM));  // CONTACT NUM
+            info[10] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ADDRESS));  // ADDRESS
+            info[11] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHECKPOINT_LOC));  // CHECKPOINT LOC
+        }
+        else info = null;
+        cursor.close();
+        // can return null if no contact was found.
         return info;
     }
 

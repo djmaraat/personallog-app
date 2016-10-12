@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Police Log</string>
+    <string name="header_form">Vehicle Details Form</string>
+</resources>

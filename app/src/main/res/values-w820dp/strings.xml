@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Police Log</string>
+    <string-array name="string_array">
+        <item>String 1</item>
+        <item>String 2</item>
+        <item>String 3</item>
+    </string-array>
+    <integer-array name="integer_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </integer-array>
+
+    <!-- Lec04 UI to do list  -->
+    <string name="addItemHint">New To Do Item</string>
+    <string name="addItemContentDescription">New To Do Item</string>
+
+</resources>

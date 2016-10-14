@@ -1,18 +1,18 @@
 <resources>
     <string name="app_name">Police Log</string>
-    <string-array name="string_array">
-        <item>String 1</item>
-        <item>String 2</item>
-        <item>String 3</item>
-    </string-array>
-    <integer-array name="integer_array">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </integer-array>
+    <string name="header_form">Vehicle Details Form</string>
 
-    <!-- Lec04 UI to do list  -->
-    <string name="addItemHint">New To Do Item</string>
-    <string name="addItemContentDescription">New To Do Item</string>
+    <string name="enter_owner_name">Enter Owner Name</string>
+    <string name="enter_driver_name">Enter Driver Name</string>
+    <string name="enter_make">Enter Make</string>
+    <string name="enter_color">Enter Color</string>
+    <string name="enter_or">Enter Official Receipt</string>
+    <string name="enter_cr">Enter Certificate of Registration</string>
+    <string name="enter_engine_num">Enter Engine Number</string>
+    <string name="enter_chassis_num">Enter Chassis Number</string>
+    <string name="enter_contact_num">Enter Contact Number</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_checkpoint_loc">Enter Checkpoint Location</string>
+    <string name="add_to_record">Add to Record</string>
 
 </resources>

@@ -27,22 +27,23 @@ public final class PoliceLogContract {
         public static final String COL_DRIVER_NAME = "driver_name";
         public static final String COL_MAKE = "make";
         public static final String COL_COLOR = "color";
-        public static final String COL_OFFICIAL_RECEIPT = "official_receipt";
-        public static final String COL_CERT_OF_REG = "cert_of_reg";
+        public static final String COL_OFFICIAL_RECEIPT = "official_receipt"; // unique 5
+        public static final String COL_CERT_OF_REG = "cert_of_reg"; // unique
         public static final String COL_ENGINE_NUM = "engine_number";
         public static final String COL_CHASSIS_NUM = "chassis_number";
         public static final String COL_CONTACT_NUM = "contact_number";
         public static final String COL_ADDRESS = "address";
         public static final String COL_CHECKPOINT_LOC = "checkpoint_loc";
+        public static final String COL_DATE_LOGGED = "date_logged";
 
         public static final String CREATE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT NOT NULL, " +
                         "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, " +
                         "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, " +
-                        "%s TEXT NOT NULL, %s TEXT NOT NULL)",
+                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, UNIQUE ( %s ))",
                 TABLE_NAME, VehicleTable._ID, COL_OWNER_NAME, COL_DRIVER_NAME,
                 COL_MAKE, COL_COLOR, COL_OFFICIAL_RECEIPT, COL_CERT_OF_REG,
                 COL_ENGINE_NUM, COL_CHASSIS_NUM, COL_CONTACT_NUM,
-                COL_ADDRESS, COL_CHECKPOINT_LOC);
+                COL_ADDRESS, COL_CHECKPOINT_LOC, COL_DATE_LOGGED, COL_CERT_OF_REG);
 
         /**
          * SQL statement to delete the table
@@ -52,11 +53,11 @@ public final class PoliceLogContract {
         /**
          * Array of all the columns. Makes for cleaner code
          */
-        public static final String[] KEY_ARRAY = {
+        public static final String[] KEY_ARRAY = {VehicleTable._ID,
                 COL_OWNER_NAME, COL_DRIVER_NAME,
                 COL_MAKE, COL_COLOR, COL_OFFICIAL_RECEIPT, COL_CERT_OF_REG,
                 COL_ENGINE_NUM, COL_CHASSIS_NUM, COL_CONTACT_NUM,
-                COL_ADDRESS, COL_CHECKPOINT_LOC
+                COL_ADDRESS, COL_CHECKPOINT_LOC, COL_DATE_LOGGED
         };
     }
 

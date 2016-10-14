@@ -8,8 +8,8 @@
         android:id="@+id/todoEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/addItemHint"
-        android:contentDescription="@string/addItemContentDescription" />
+        android:hint="test"
+        android:contentDescription="testsdf" />
     <ListView
         android:id="@+id/todoListView"
         android:layout_width="match_parent"

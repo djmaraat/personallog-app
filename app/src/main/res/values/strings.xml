@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">Police Log</string>
     <string name="header_form">Vehicle Details Form</string>
+
+    <string name="enter_owner_name">Enter Owner Name</string>
+    <string name="enter_driver_name">Enter Driver Name</string>
+    <string name="enter_make">Enter Make</string>
+    <string name="enter_color">Enter Color</string>
+    <string name="enter_or">Enter Official Receipt</string>
+    <string name="enter_cr">Enter Certificate of Registration</string>
+    <string name="enter_engine_num">Enter Engine Number</string>
+    <string name="enter_chassis_num">Enter Chassis Number</string>
+    <string name="enter_contact_num">Enter Contact Number</string>
+    <string name="enter_address">Enter Address</string>
+    <string name="enter_checkpoint_loc">Enter Checkpoint Location</string>
+    <string name="add_to_record">Add to Record</string>
 </resources>

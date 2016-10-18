@@ -50,10 +50,21 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPhonetic"
+                android:hint="@string/enter_driver_license_num"
+                android:ems="12"
+                android:id="@+id/editTextDriverLicenseNum"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/editTextMake"
                 android:hint="@string/enter_make"
                 android:ems="12"
-                android:layout_row="3"
+                android:layout_row="4"
                 android:layout_column="0"
                 android:singleLine="true"/>
             <EditText
@@ -62,15 +73,6 @@
                 android:id="@+id/editTextColor"
                 android:hint="@string/enter_color"
                 android:ems="12"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:singleLine="true"/>
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextOR"
-                android:hint="@string/enter_or"
                 android:layout_row="5"
                 android:layout_column="0"
                 android:singleLine="true"/>
@@ -78,8 +80,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextCR"
-                android:hint="@string/enter_cr"
+                android:inputType="number"
+                android:id="@+id/editTextOR"
+                android:hint="@string/enter_or"
                 android:layout_row="6"
                 android:layout_column="0"
                 android:singleLine="true"/>
@@ -87,8 +90,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextEngineNum"
-                android:hint="@string/enter_engine_num"
+                android:inputType="number"
+                android:id="@+id/editTextCR"
+                android:hint="@string/enter_cr"
                 android:layout_row="7"
                 android:layout_column="0"
                 android:singleLine="true"/>
@@ -96,8 +100,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextChassisNum"
-                android:hint="@string/enter_chassis_num"
+                android:inputType="textPhonetic"
+                android:id="@+id/editTextEngineNum"
+                android:hint="@string/enter_engine_num"
                 android:layout_row="8"
                 android:layout_column="0"
                 android:singleLine="true"/>
@@ -105,9 +110,20 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="textPhonetic"
+                android:id="@+id/editTextChassisNum"
+                android:hint="@string/enter_chassis_num"
+                android:layout_row="9"
+                android:layout_column="0"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
                 android:id="@+id/editTextContactNum"
                 android:hint="@string/enter_contact_num"
-                android:layout_row="9"
+                android:layout_row="10"
                 android:layout_column="0"
                 android:singleLine="true"/>
 
@@ -116,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextAddress"
                 android:hint="@string/enter_address"
-                android:layout_row="10"
+                android:layout_row="11"
                 android:layout_column="0"
                 android:singleLine="true"/>
 
@@ -125,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextCheckpointLoc"
                 android:hint="@string/enter_checkpoint_loc"
-                android:layout_row="11"
+                android:layout_row="12"
                 android:layout_column="0"
                 android:singleLine="true"/>
 
@@ -133,17 +149,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextDateLogged"
-                android:hint="Date Logged"
-                android:layout_row="12"
+                android:hint="@string/date_mmddyy"
+                android:layout_row="13"
                 android:layout_column="0"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:focusable="false"
+                android:inputType="none"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_to_record"
                 android:id="@+id/buttonAddToRec"
-                android:layout_row="13"
+                android:layout_row="14"
                 android:layout_column="0"
                 android:onClick="addToRecord"/>
         </GridLayout>

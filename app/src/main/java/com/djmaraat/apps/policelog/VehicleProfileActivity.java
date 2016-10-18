@@ -2,6 +2,7 @@ package com.djmaraat.apps.policelog;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ public class VehicleProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vehicle_profile);
 
         Vehicle newVehicle = getIntent().getExtras().getParcelable("vehicle");
+
+        Log.d("LOGTEST", "vehicle OR: " + newVehicle.official_receipt +  "vehicle ID: " + newVehicle.id);
 
         EditText textOwnerName = (EditText) findViewById(R.id.editTextNameOwner);
         textOwnerName.setEnabled(false);

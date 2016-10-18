@@ -4,6 +4,7 @@
 
     <string name="enter_owner_name">Enter Owner Name</string>
     <string name="enter_driver_name">Enter Driver Name</string>
+    <string name="enter_driver_license_num">Enter Driver License</string>
     <string name="enter_make">Enter Make</string>
     <string name="enter_color">Enter Color</string>
     <string name="enter_or">Enter Official Receipt</string>
@@ -14,4 +15,6 @@
     <string name="enter_address">Enter Address</string>
     <string name="enter_checkpoint_loc">Enter Checkpoint Location</string>
     <string name="add_to_record">Add to Record</string>
+    <string name="date_mmddyy">MM/DD/YY</string>
+
 </resources>

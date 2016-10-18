@@ -12,24 +12,29 @@ public class Vehicle implements Parcelable{
 
     private int mData;
 
-    public int id;
-    public String owner_name, driver_name, make, color, official_receipt, cert_of_reg, engine_number,
-            chassis_number, contact_number, address, checkpoint_loc, date_logged;
+    public int id, checked_by;
+    public String owner_name, driver_name, driver_license_num, make, color, engine_number,
+            chassis_number, contact_number, address, checkpoint_loc, date_logged, official_receipt, cert_of_reg ;
 
     public Vehicle (String[] vehicleDetails) {
-        id = Integer.valueOf(vehicleDetails[0]);
-        owner_name = vehicleDetails[1];
-        driver_name = vehicleDetails[2];
-        make = vehicleDetails[3];
-        color = vehicleDetails[4];
-        official_receipt = vehicleDetails[5];
-        cert_of_reg = vehicleDetails[6];
-        engine_number = vehicleDetails[7];
-        chassis_number = vehicleDetails[8];
-        contact_number = vehicleDetails[9];
-        address = vehicleDetails[10];
-        checkpoint_loc = vehicleDetails[11];
-        date_logged = vehicleDetails[12];
+        if (vehicleDetails != null) {
+            id = Integer.valueOf(vehicleDetails[0]);
+            owner_name = vehicleDetails[1];
+            driver_name = vehicleDetails[2];
+            driver_license_num = vehicleDetails[3];
+            make = vehicleDetails[4];
+            color = vehicleDetails[5];
+            official_receipt = vehicleDetails[6];
+            cert_of_reg = vehicleDetails[7];
+            engine_number = vehicleDetails[8];
+            chassis_number = vehicleDetails[9];
+            contact_number = vehicleDetails[10];
+            address = vehicleDetails[11];
+            checkpoint_loc = vehicleDetails[12];
+            date_logged = vehicleDetails[13];
+            checked_by = Integer.valueOf(vehicleDetails[14]);
+        }
+
     }
 
     @Override
@@ -37,6 +42,7 @@ public class Vehicle implements Parcelable{
         out.writeInt(id);
         out.writeString(owner_name);
         out.writeString(driver_name);
+        out.writeString(driver_license_num);
         out.writeString(make);
         out.writeString(color);
         out.writeString(official_receipt);
@@ -47,6 +53,7 @@ public class Vehicle implements Parcelable{
         out.writeString(address);
         out.writeString(checkpoint_loc);
         out.writeString(date_logged);
+        out.writeInt(checked_by);
 
         out.writeInt(mData);
     }
@@ -69,6 +76,7 @@ public class Vehicle implements Parcelable{
         id = in.readInt();
         owner_name = in.readString();
         driver_name = in.readString();
+        driver_license_num = in.readString();
         make = in.readString();
         color = in.readString();
         official_receipt = in.readString();
@@ -79,6 +87,7 @@ public class Vehicle implements Parcelable{
         address = in.readString();
         checkpoint_loc = in.readString();
         date_logged = in.readString();
+        checked_by = in.readInt();
 
         mData = in.readInt();
     }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -47,24 +48,21 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         // retrieve the vehicle info from the string array
-        values.put(PoliceLogContract.VehicleTable.COL_OWNER_NAME, vehicleInfoArg[0]);
-        values.put(PoliceLogContract.VehicleTable.COL_DRIVER_NAME, vehicleInfoArg[1]);
-        values.put(PoliceLogContract.VehicleTable.COL_MAKE, vehicleInfoArg[2]);
-        values.put(PoliceLogContract.VehicleTable.COL_COLOR, vehicleInfoArg[3]);
-        values.put(PoliceLogContract.VehicleTable.COL_OFFICIAL_RECEIPT, vehicleInfoArg[4]);
-        values.put(PoliceLogContract.VehicleTable.COL_CERT_OF_REG, vehicleInfoArg[5]);
-        values.put(PoliceLogContract.VehicleTable.COL_ENGINE_NUM, vehicleInfoArg[6]);
-        values.put(PoliceLogContract.VehicleTable.COL_CHASSIS_NUM, vehicleInfoArg[7]);
-        values.put(PoliceLogContract.VehicleTable.COL_CONTACT_NUM, vehicleInfoArg[8]);
-        values.put(PoliceLogContract.VehicleTable.COL_ADDRESS, vehicleInfoArg[9]);
-        values.put(PoliceLogContract.VehicleTable.COL_CHECKPOINT_LOC, vehicleInfoArg[10]);
-        values.put(PoliceLogContract.VehicleTable.COL_DATE_LOGGED, vehicleInfoArg[11]);
+        int count = 1;
+        for (String vehicleInf: vehicleInfoArg) {
+            if (count == 14)
+                values.put(PoliceLogContract.VehicleTable.KEY_ARRAY[count], Integer.valueOf(vehicleInf));
+            else values.put(PoliceLogContract.VehicleTable.KEY_ARRAY[count], vehicleInf);
+//            Log.d("LOGTEST", "count: " + PoliceLogContract.VehicleTable.KEY_ARRAY[count] + " vehicle info: " + vehicleInf);
+            count++;
+        }
 
         // insert to the vehicle table, return false if there is a duplicate item
         try {
             // insertWithOnConflict throws a constraint exception if constraint is violated
             database.insertWithOnConflict(PoliceLogContract.VehicleTable.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_FAIL);
         } catch (SQLiteConstraintException sqEx) {
+            database.close();
             return false;
         }
         database.close();
@@ -74,15 +72,29 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
     }
 
     /* Create a new user information */
-    void storeUserInfo(String[] userInfoArg) {
+    boolean storeUserInfo(String[] userInfoArg) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(PoliceLogContract.UserTable.COL_USERNAME, userInfoArg[0]);
-        values.put(PoliceLogContract.UserTable.COL_PASSWORD, userInfoArg[1]);
+        // retrieve the user info from the string array
+        int count = 1;
+        for (String userInf: userInfoArg) {
+            values.put(PoliceLogContract.UserTable.KEY_ARRAY[count], userInf);
+            count++;
+        }
 
-        database.insert(PoliceLogContract.UserTable.TABLE_NAME, null, values);
+        // insert to the vehicle table, return false if there is a duplicate item
+        try {
+            // insertWithOnConflict throws a constraint exception if constraint is violated
+            database.insertWithOnConflict(PoliceLogContract.UserTable.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_FAIL);
+        } catch (SQLiteConstraintException sqEx) {
+            database.close();
+            return false;
+        }
         database.close();
+        // close the database connection
+        // MUST add this to avoid leakage
+        return true;
     }
 
     ArrayList<String[]> retrieveAllVehicleItems() {
@@ -93,22 +105,17 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
 
         Cursor cursor = database.rawQuery(sql, null);
         database.rawQuery(sql, null);
-        String[] info = new String[13];
+        String[] info = new String[PoliceLogContract.VehicleTable.KEY_ARRAY.length];
 
         while (cursor.moveToNext()) {
-            info[0] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable._ID)));    // vehicle ID
-            info[1] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OWNER_NAME));  // owner name
-            info[2] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_DRIVER_NAME));  // driver name
-            info[3] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_MAKE));  // make
-            info[4] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_COLOR));  // color
-            info[5] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OFFICIAL_RECEIPT));  // OR
-            info[6] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CERT_OF_REG));  // CR
-            info[7] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ENGINE_NUM));  // Engine Num
-            info[8] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHASSIS_NUM));  // CHASSIS NUM
-            info[9] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CONTACT_NUM));  // CONTACT NUM
-            info[10] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ADDRESS));  // ADDRESS
-            info[11] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHECKPOINT_LOC));  // CHECKPOINT LOC
-            info[12] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_DATE_LOGGED));  // DATE LOGGED
+            for (int i = 0; i < info.length; i++) {
+                if (i == 0 || i == 14) { // id, or, cr, user id (checked by)
+                    info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
+                }
+                else {
+                    info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
+                }
+            }
             allVehiclesList.add(info);
         }
 
@@ -118,9 +125,9 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
         return allVehiclesList;
     }
     /* Retrieves a search with String parameters
-     * @colName, @keyword */
+     * @params colName, keyword */
     String[] retrieveVehicleInfo(String colName, String keyword) {
-        String[] info = new String[13];
+        String[] info = new String[PoliceLogContract.VehicleTable.KEY_ARRAY.length];
         SQLiteDatabase database = getReadableDatabase();
 
         // Define a projection that specifies which columns from the database
@@ -133,7 +140,7 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                PoliceLogContract.VehicleTable.COL_OWNER_NAME + " DESC";
+                PoliceLogContract.VehicleTable.COL_DATE_LOGGED + " DESC";
 
         Cursor cursor = database.query(
                 PoliceLogContract.VehicleTable.TABLE_NAME,// The table to query
@@ -145,19 +152,94 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
                 sortOrder                                 // The sort order
         );
         if (cursor.moveToFirst()) {
-            info[0] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable._ID)));  // vehicle ID
-            info[1] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OWNER_NAME));  // owner name
-            info[2] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_DRIVER_NAME));  // driver name
-            info[3] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_MAKE));  // make
-            info[4] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_COLOR));  // color
-            info[5] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_OFFICIAL_RECEIPT));  // OR
-            info[6] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CERT_OF_REG));  // CR
-            info[7] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ENGINE_NUM));  // Engine Num
-            info[8] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHASSIS_NUM));  // CHASSIS NUM
-            info[9] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CONTACT_NUM));  // CONTACT NUM
-            info[10] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_ADDRESS));  // ADDRESS
-            info[11] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_CHECKPOINT_LOC));  // CHECKPOINT LOC
-            info[12] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.COL_DATE_LOGGED));  // DATE LOGGED
+            for (int i = 0; i < info.length; i++) {
+                if (i == 0 || i == 14) { // id, user id (checked by)
+                    info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
+                }
+                else {
+                    info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
+                }
+//                Log.d("LOGTEST", "retrieval - count: " + PoliceLogContract.VehicleTable.KEY_ARRAY[i] + " vehicle info: " + info[i]);
+            }
+        }
+        else info = null;
+        cursor.close();
+        database.close();
+        // can return null if no contact was found.
+        return info;
+    }
+
+    ArrayList<String[]> searchVehiclesByKeyword(String colName, String keyword) {
+        ArrayList<String[]> allVehiclesList = new ArrayList<>();
+        SQLiteDatabase database = getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = PoliceLogContract.VehicleTable.KEY_ARRAY;
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = colName + " = ?";
+        String[] selectionArgs = { keyword };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                PoliceLogContract.VehicleTable.COL_DATE_LOGGED + " DESC";
+
+        String[] info = new String[PoliceLogContract.VehicleTable.KEY_ARRAY.length];
+        Cursor cursor = database.query(
+                PoliceLogContract.VehicleTable.TABLE_NAME,// The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+        if (cursor.moveToFirst()) {
+            for (int i = 0; i < info.length; i++) {
+                if (i == 0 || i == 14) { // id, or, cr, user id (checked by)
+                    info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
+                }
+                else {
+                    info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
+                }
+            }
+        }
+        cursor.close();
+        database.close();
+
+        return allVehiclesList;
+    }
+
+    String[] retrieveUserInfo(String colName, String keyword) {
+        String[] info = new String[PoliceLogContract.UserTable.KEY_ARRAY.length];
+        SQLiteDatabase database = getReadableDatabase();
+
+        // Define a projection that specifies which columns from the database
+        // you will actually use after this query.
+        String[] projection = PoliceLogContract.UserTable.KEY_ARRAY;
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = colName + " = ?";
+        String[] selectionArgs = { keyword };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                PoliceLogContract.UserTable.COL_LAST_NAME + " DESC";
+
+        Cursor cursor = database.query(
+                PoliceLogContract.UserTable.TABLE_NAME,// The table to query
+                projection,                               // The columns to return
+                selection,                                // The columns for the WHERE clause
+                selectionArgs,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+        if (cursor.moveToFirst()) {
+            for (int i = 0; i < info.length; i++) {
+                info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.UserTable.KEY_ARRAY[i]));
+            }
         }
         else info = null;
         cursor.close();
@@ -184,6 +266,7 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
         int valueCounter = 0;
         for (String column: columns) {
             contentValues.put(column, values[valueCounter]);
+            valueCounter++;
         }
         database.update(PoliceLogContract.VehicleTable.TABLE_NAME, contentValues,
                 PoliceLogContract.VehicleTable._ID + "=?", new String[] {Integer.toString(recordID)});
@@ -195,6 +278,7 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
 /*
     Name of Owner
     Name of Driver
+    License Number
     Make (if honda, kwasaki)
     Color
     OR (Official Receipt) - unique
@@ -204,4 +288,6 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
     CONTACT NUMBER
     ADDRESS BRGY
     Check point location
+    Date Logged
+    Checked by
  */

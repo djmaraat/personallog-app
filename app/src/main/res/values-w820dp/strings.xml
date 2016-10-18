@@ -14,5 +14,6 @@
     <string name="enter_address">Enter Address</string>
     <string name="enter_checkpoint_loc">Enter Checkpoint Location</string>
     <string name="add_to_record">Add to Record</string>
+    <string name="date_mmddyy">MM/DD/YY</string>
 
 </resources>

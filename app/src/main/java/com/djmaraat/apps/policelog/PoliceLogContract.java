@@ -25,25 +25,27 @@ public final class PoliceLogContract {
         // VEHICLE INFO
         public static final String COL_OWNER_NAME = "owner_name";
         public static final String COL_DRIVER_NAME = "driver_name";
+        public static final String COL_LICENSE_NUM = "driver_licence_num";
         public static final String COL_MAKE = "make";
         public static final String COL_COLOR = "color";
-        public static final String COL_OFFICIAL_RECEIPT = "official_receipt"; // unique 5
-        public static final String COL_CERT_OF_REG = "cert_of_reg"; // unique
+        public static final String COL_OFFICIAL_RECEIPT = "official_receipt"; // unique 6, num
+        public static final String COL_CERT_OF_REG = "cert_of_reg"; // unique 7, num
         public static final String COL_ENGINE_NUM = "engine_number";
         public static final String COL_CHASSIS_NUM = "chassis_number";
         public static final String COL_CONTACT_NUM = "contact_number";
         public static final String COL_ADDRESS = "address";
         public static final String COL_CHECKPOINT_LOC = "checkpoint_loc";
         public static final String COL_DATE_LOGGED = "date_logged";
+        public static final String COL_CHECKED_BY = "checked_by"; // user id
 
         public static final String CREATE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY, %s TEXT NOT NULL, " +
+                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, " +
                         "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, " +
-                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, " +
-                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, UNIQUE ( %s ))",
-                TABLE_NAME, VehicleTable._ID, COL_OWNER_NAME, COL_DRIVER_NAME,
+                        "%s TEXT NOT NULL, %s TEXT NOT NULL, %s TEXT NOT NULL, %s INTEGER NOT NULL, UNIQUE ( %s ))",
+                TABLE_NAME, VehicleTable._ID, COL_OWNER_NAME, COL_DRIVER_NAME, COL_LICENSE_NUM,
                 COL_MAKE, COL_COLOR, COL_OFFICIAL_RECEIPT, COL_CERT_OF_REG,
                 COL_ENGINE_NUM, COL_CHASSIS_NUM, COL_CONTACT_NUM,
-                COL_ADDRESS, COL_CHECKPOINT_LOC, COL_DATE_LOGGED, COL_CERT_OF_REG);
+                COL_ADDRESS, COL_CHECKPOINT_LOC, COL_DATE_LOGGED, COL_CHECKED_BY, COL_OFFICIAL_RECEIPT);
 
         /**
          * SQL statement to delete the table
@@ -54,10 +56,10 @@ public final class PoliceLogContract {
          * Array of all the columns. Makes for cleaner code
          */
         public static final String[] KEY_ARRAY = {VehicleTable._ID,
-                COL_OWNER_NAME, COL_DRIVER_NAME,
+                COL_OWNER_NAME, COL_DRIVER_NAME, COL_LICENSE_NUM,
                 COL_MAKE, COL_COLOR, COL_OFFICIAL_RECEIPT, COL_CERT_OF_REG,
                 COL_ENGINE_NUM, COL_CHASSIS_NUM, COL_CONTACT_NUM,
-                COL_ADDRESS, COL_CHECKPOINT_LOC, COL_DATE_LOGGED
+                COL_ADDRESS, COL_CHECKPOINT_LOC, COL_DATE_LOGGED, COL_CHECKED_BY
         };
     }
 
@@ -70,19 +72,36 @@ public final class PoliceLogContract {
         public static final String COL_FIRST_NAME = "first_name";
         public static final String COL_LAST_NAME = "last_name";
         public static final String COL_PRESINCT = "presinct";
+        public static final String COL_RANK = "rank";
 
         public static final String CREATE_TABLE = String.format("CREATE TABLE %s (%s INTEGER PRIMARY KEY," +
                         "%s TEXT NOT NULL, %s TEXT NOT NULL, " +
                         "%s TEXT NOT NULL, %s TEXT NOT NULL, " +
-                        "%s TEXT NOT NULL)",
+                        "%s TEXT NOT NULL, %s TEXT NOT NULL)",
                 TABLE_NAME, UserTable._ID, COL_USERNAME, COL_PASSWORD,
-                COL_FIRST_NAME, COL_LAST_NAME, COL_PRESINCT);
+                COL_FIRST_NAME, COL_LAST_NAME, COL_PRESINCT, COL_RANK);
 
         public static final String DELETE_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
         public static final String[] KEY_ARRAY = {
                 COL_USERNAME, COL_PASSWORD,
-                COL_FIRST_NAME, COL_LAST_NAME, COL_PRESINCT
+                COL_FIRST_NAME, COL_LAST_NAME, COL_PRESINCT, COL_RANK
         };
     }
 }
+/*
+    Name of Owner
+    Name of Driver
+    License Number
+    Make (if honda, kwasaki)
+    Color
+    OR (Official Receipt) - unique
+    CR - (Certificate of Registration) unique
+    ENGINE NUMBER
+    CHASSIS NUMBER
+    CONTACT NUMBER
+    ADDRESS BRGY
+    Check point location
+    Date Logged
+    Checked by
+ */

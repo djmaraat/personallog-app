@@ -1,4 +1,4 @@
-package com.djmaraat.apps.policelog;
+package com.djmaraat.apps.policelog.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
 
 
     /* Create a new vehicle information */
-    boolean storeVehicleInfo(String[] vehicleInfoArg) {
+    public boolean storeVehicleInfo(String[] vehicleInfoArg) {
         // get the available database
         SQLiteDatabase database = getWritableDatabase();
         // initialize the content values object that will hold the object to be inserted
@@ -62,17 +61,17 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
             // insertWithOnConflict throws a constraint exception if constraint is violated
             database.insertWithOnConflict(PoliceLogContract.VehicleTable.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_FAIL);
         } catch (SQLiteConstraintException sqEx) {
-            database.close();
             return false;
+        } finally {
+            database.close();
         }
-        database.close();
         // close the database connection
         // MUST add this to avoid leakage
         return true;
     }
 
     /* Create a new user information */
-    boolean storeUserInfo(String[] userInfoArg) {
+    public boolean storeUserInfo(String[] userInfoArg) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -88,16 +87,15 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
             // insertWithOnConflict throws a constraint exception if constraint is violated
             database.insertWithOnConflict(PoliceLogContract.UserTable.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_FAIL);
         } catch (SQLiteConstraintException sqEx) {
-            database.close();
             return false;
         }
-        database.close();
+        finally { database.close(); }
         // close the database connection
         // MUST add this to avoid leakage
         return true;
     }
 
-    ArrayList<String[]> retrieveAllVehicleItems() {
+    public ArrayList<String[]> retrieveAllVehicleItems() {
         ArrayList<String[]> allVehiclesList = new ArrayList<>();
         SQLiteDatabase database = getReadableDatabase();
 
@@ -107,26 +105,28 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
         database.rawQuery(sql, null);
         String[] info = new String[PoliceLogContract.VehicleTable.KEY_ARRAY.length];
 
-        while (cursor.moveToNext()) {
-            for (int i = 0; i < info.length; i++) {
-                if (i == 0 || i == 14) { // id, or, cr, user id (checked by)
-                    info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
+        try {
+            while (cursor.moveToNext()) {
+                for (int i = 0; i < info.length; i++) {
+                    if (i == 0 || i == 14) { // id, or, cr, user id (checked by)
+                        info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
+                    }
+                    else {
+                        info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
+                    }
                 }
-                else {
-                    info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
-                }
+                allVehiclesList.add(info);
             }
-            allVehiclesList.add(info);
+        } finally {
+            cursor.close();
+            database.close();
         }
-
-        cursor.close();
-        database.close();
 
         return allVehiclesList;
     }
     /* Retrieves a search with String parameters
      * @params colName, keyword */
-    String[] retrieveVehicleInfo(String colName, String keyword) {
+    public String[] retrieveVehicleInfo(String colName, String keyword) {
         String[] info = new String[PoliceLogContract.VehicleTable.KEY_ARRAY.length];
         SQLiteDatabase database = getReadableDatabase();
 
@@ -151,25 +151,29 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
         );
-        if (cursor.moveToFirst()) {
-            for (int i = 0; i < info.length; i++) {
-                if (i == 0 || i == 14) { // id, user id (checked by)
-                    info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
-                }
-                else {
-                    info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
-                }
+
+        try {
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < info.length; i++) {
+                    if (i == 0 || i == 14) { // id, user id (checked by)
+                        info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
+                    }
+                    else {
+                        info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
+                    }
 //                Log.d("LOGTEST", "retrieval - count: " + PoliceLogContract.VehicleTable.KEY_ARRAY[i] + " vehicle info: " + info[i]);
+                }
             }
+            else info = null;
+        } finally {
+            cursor.close();
+            database.close();
         }
-        else info = null;
-        cursor.close();
-        database.close();
         // can return null if no contact was found.
         return info;
     }
 
-    ArrayList<String[]> searchVehiclesByKeyword(String colName, String keyword) {
+    public ArrayList<String[]> searchVehiclesByKeyword(String colName, String keyword) {
         ArrayList<String[]> allVehiclesList = new ArrayList<>();
         SQLiteDatabase database = getReadableDatabase();
 
@@ -195,23 +199,27 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
         );
-        if (cursor.moveToFirst()) {
-            for (int i = 0; i < info.length; i++) {
-                if (i == 0 || i == 14) { // id, or, cr, user id (checked by)
-                    info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
-                }
-                else {
-                    info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
+
+        try {
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < info.length; i++) {
+                    if (i == 0 || i == 14) { // id, or, cr, user id (checked by)
+                        info[i] = Integer.toString(cursor.getInt(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i])));
+                    }
+                    else {
+                        info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.VehicleTable.KEY_ARRAY[i]));
+                    }
                 }
             }
+        } finally {
+            cursor.close();
+            database.close();
         }
-        cursor.close();
-        database.close();
 
         return allVehiclesList;
     }
 
-    String[] retrieveUserInfo(String colName, String keyword) {
+    public String[] retrieveUserInfo(String colName, String keyword) {
         String[] info = new String[PoliceLogContract.UserTable.KEY_ARRAY.length];
         SQLiteDatabase database = getReadableDatabase();
 
@@ -236,31 +244,38 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 sortOrder                                 // The sort order
         );
-        if (cursor.moveToFirst()) {
-            for (int i = 0; i < info.length; i++) {
-                info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.UserTable.KEY_ARRAY[i]));
+
+        try {
+            if (cursor.moveToFirst()) {
+                for (int i = 0; i < info.length; i++) {
+                    info[i] = cursor.getString(cursor.getColumnIndex(PoliceLogContract.UserTable.KEY_ARRAY[i]));
+                }
             }
+            else info = null;
+        } finally {
+            cursor.close();
+            database.close();
         }
-        else info = null;
-        cursor.close();
-        database.close();
         // can return null if no contact was found.
         return info;
     }
 
-    boolean deleteRecord(int recordID){
+    public boolean deleteRecord(int recordID){
         SQLiteDatabase database = getWritableDatabase();
         // Define 'where' part of query.
         String selection = PoliceLogContract.VehicleTable._ID + " LIKE ?";
         // Specify arguments in placeholder order.
         String[] selectionArgs = { Integer.toString(recordID) };
         // Issue SQL statement.
-        database.delete(PoliceLogContract.VehicleTable.TABLE_NAME, selection, selectionArgs);
-        database.close();
+        try {
+            database.delete(PoliceLogContract.VehicleTable.TABLE_NAME, selection, selectionArgs);
+        } finally {
+            database.close();
+        }
         return true;
     }
 
-    boolean updateRecord(String[] columns, String[] values, int recordID) {
+    public boolean updateRecord(String[] columns, String[] values, int recordID) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         int valueCounter = 0;
@@ -268,9 +283,12 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
             contentValues.put(column, values[valueCounter]);
             valueCounter++;
         }
-        database.update(PoliceLogContract.VehicleTable.TABLE_NAME, contentValues,
-                PoliceLogContract.VehicleTable._ID + "=?", new String[] {Integer.toString(recordID)});
-        database.close();
+        try {
+            database.update(PoliceLogContract.VehicleTable.TABLE_NAME, contentValues,
+                    PoliceLogContract.VehicleTable._ID + "=?", new String[] {Integer.toString(recordID)});
+        } finally {
+            database.close();
+        }
         return true;
     }
 }

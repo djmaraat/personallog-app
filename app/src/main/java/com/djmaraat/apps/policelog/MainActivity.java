@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.djmaraat.apps.policelog.Entities.Vehicle;
+import com.djmaraat.apps.policelog.entities.Vehicle;
+import com.djmaraat.apps.policelog.data.PoliceLogContract;
+import com.djmaraat.apps.policelog.data.PoliceLogDBHelper;
 
 import java.util.Calendar;
 
@@ -144,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
     void resetFields() {
         textOwnerName.setText("");
         textDriverName.setText("");
+        textDriverLicense.setText("");
         textMake.setText("");
         textColor.setText("");
         textOR.setText("");

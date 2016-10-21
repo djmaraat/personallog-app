@@ -1,8 +1,6 @@
-package com.djmaraat.apps.policelog;
+package com.djmaraat.apps.policelog.data;
 
 import android.provider.BaseColumns;
-
-import com.djmaraat.apps.policelog.Entities.Vehicle;
 
 /**
  * Created by djanemaraat on 12/10/2016.

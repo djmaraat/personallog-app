@@ -4,10 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
-import com.djmaraat.apps.policelog.Entities.Vehicle;
+import com.djmaraat.apps.policelog.entities.Vehicle;
 
 public class VehicleProfileActivity extends AppCompatActivity {
 
@@ -20,53 +19,20 @@ public class VehicleProfileActivity extends AppCompatActivity {
 
         Log.d("LOGTEST", "vehicle OR: " + newVehicle.official_receipt +  "vehicle ID: " + newVehicle.id);
 
-        EditText textOwnerName = (EditText) findViewById(R.id.editTextNameOwner);
-        textOwnerName.setEnabled(false);
+        TextView textOwnerName = (TextView) findViewById(R.id.textNameOwner);
         textOwnerName.setText(newVehicle.owner_name);
 
-        EditText textDriverName = (EditText) findViewById(R.id.editTextNameDriver);
-        textDriverName.setEnabled(false);
+        TextView textDriverName = (TextView) findViewById(R.id.textNameDriver);
         textDriverName.setText(newVehicle.driver_name);
 
-        EditText textMake = (EditText) findViewById(R.id.editTextMake);
-        textMake.setEnabled(false);
+        TextView textDriverLicense = (TextView) findViewById(R.id.textDriverLicense);
+        textDriverLicense.setText(newVehicle.driver_name);
+
+        TextView textMake = (TextView) findViewById(R.id.textMake);
         textMake.setText(newVehicle.make);
 
-        EditText textColor = (EditText) findViewById(R.id.editTextColor);
-        textColor.setEnabled(false);
+        TextView textColor = (TextView) findViewById(R.id.textColor);
         textColor.setText(newVehicle.color);
-
-        EditText textOR = (EditText) findViewById(R.id.editTextOR);
-        textOR.setEnabled(false);
-        textOR.setText(newVehicle.official_receipt);
-
-        EditText textCR = (EditText) findViewById(R.id.editTextCR);
-        textCR.setEnabled(false);
-        textCR.setText(newVehicle.cert_of_reg);
-
-        EditText textEngineNum = (EditText) findViewById(R.id.editTextEngineNum);
-        textEngineNum.setEnabled(false);
-        textEngineNum.setText(newVehicle.engine_number);
-
-        EditText textChassisNum = (EditText) findViewById(R.id.editTextChassisNum);
-        textChassisNum.setEnabled(false);
-        textChassisNum.setText(newVehicle.chassis_number);
-
-        EditText textContactNum = (EditText) findViewById(R.id.editTextContactNum);
-        textContactNum.setEnabled(false);
-        textContactNum.setText(newVehicle.contact_number);
-
-        EditText textAddress = (EditText) findViewById(R.id.editTextAddress);
-        textAddress.setEnabled(false);
-        textAddress.setText(newVehicle.address);
-
-        EditText textCheckPointLoc = (EditText) findViewById(R.id.editTextCheckpointLoc);
-        textCheckPointLoc.setEnabled(false);
-        textCheckPointLoc.setText(newVehicle.checkpoint_loc);
-
-        EditText textDateLogged = (EditText) findViewById(R.id.editTextDateLogged);
-        textDateLogged.setEnabled(false);
-        textDateLogged.setText(newVehicle.date_logged);
     }
 
     public void donePressed(View view) {

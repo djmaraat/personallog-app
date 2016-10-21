@@ -1,9 +1,7 @@
-package com.djmaraat.apps.policelog.Entities;
+package com.djmaraat.apps.policelog.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import org.json.JSONObject;
 
 /**
  * Created by djanemaraat on 8/4/16.

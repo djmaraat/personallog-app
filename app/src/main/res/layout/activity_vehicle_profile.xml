@@ -8,142 +8,141 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".VehicleProfileActivity">
+    tools:context=".VehicleProfileActivity"
+    android:background="@color/colorPastelBlue0">
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_row="20"
-        android:layout_column="16">
+        android:layout_column="1"
+        android:padding="@dimen/activity_horizontal_margin">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:hint="@string/header_form"
             android:id="@+id/textViewFormHeader"
-            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:layout_row="0"
-            android:layout_column="0" />
+            android:layout_column="0"
+            android:padding="@dimen/activity_horizontal_margin"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/enter_owner_name"
-            android:ems="12"
-            android:id="@+id/editTextNameOwner"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/labelNameOwner"
+            android:text="@string/owner_name"
             android:layout_row="1"
             android:layout_column="0"
-            android:singleLine="true" />
+            android:padding="10dp"
+            android:background="@color/colorPastelBlue1"/>
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/enter_driver_name"
-            android:ems="12"
-            android:id="@+id/editTextNameDriver"
+            android:textSize="16sp"
+            android:id="@+id/textNameOwner"
+            android:text="@string/owner_name"
             android:layout_row="2"
             android:layout_column="0"
-            android:singleLine="true"/>
+            android:padding="10dp"/>
 
-        <EditText
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextMake"
-            android:hint="@string/enter_make"
-            android:ems="12"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/labelNameDriver"
+            android:text="@string/driver_name"
             android:layout_row="3"
             android:layout_column="0"
-            android:singleLine="true"/>
-        <EditText
+            android:padding="10dp"
+            android:background="@color/colorPastelBlue1" />
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextColor"
-            android:hint="@string/enter_color"
-            android:ems="12"
+            android:textSize="16sp"
+            android:id="@+id/textNameDriver"
+            android:text="@string/driver_name"
             android:layout_row="4"
             android:layout_column="0"
-            android:singleLine="true"/>
+            android:padding="10dp" />
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextOR"
-            android:hint="@string/enter_or"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/labelDriverLicense"
+            android:text="@string/driver_license_num"
             android:layout_row="5"
             android:layout_column="0"
-            android:singleLine="true"/>
+            android:padding="10dp"
+            android:background="@color/colorPastelBlue1" />
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextCR"
-            android:hint="@string/enter_cr"
+            android:textSize="16sp"
+            android:id="@+id/textDriverLicense"
+            android:text="@string/driver_license_num"
             android:layout_row="6"
             android:layout_column="0"
-            android:singleLine="true"/>
+            android:padding="10dp" />
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextEngineNum"
-            android:hint="@string/enter_engine_num"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/labelMake"
+            android:text="@string/make"
             android:layout_row="7"
             android:layout_column="0"
-            android:singleLine="true"/>
-
-        <EditText
+            android:padding="10dp"
+            android:background="@color/colorPastelBlue1" />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextChassisNum"
-            android:hint="@string/enter_chassis_num"
+            android:textSize="16sp"
+            android:id="@+id/textMake"
+            android:text="@string/owner_name"
             android:layout_row="8"
             android:layout_column="0"
-            android:singleLine="true"/>
+            android:padding="10dp" />
 
-        <EditText
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextContactNum"
-            android:hint="@string/enter_contact_num"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/labelColor"
+            android:text="@string/color"
             android:layout_row="9"
             android:layout_column="0"
-            android:singleLine="true"/>
-
-        <EditText
+            android:padding="10dp"
+            android:background="@color/colorPastelBlue1" />
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextAddress"
-            android:hint="@string/enter_address"
+            android:textSize="16sp"
+            android:id="@+id/textColor"
+            android:text="@string/color"
             android:layout_row="10"
             android:layout_column="0"
-            android:singleLine="true"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextCheckpointLoc"
-            android:hint="@string/enter_checkpoint_loc"
-            android:layout_row="11"
-            android:layout_column="0"
-            android:singleLine="true"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextDateLogged"
-            android:hint="Date Logged"
-            android:layout_row="12"
-            android:layout_column="0"
-            android:singleLine="true"/>
+            android:padding="10dp" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Done"
             android:id="@+id/buttonDone"
-            android:layout_row="13"
+            android:layout_row="11"
             android:layout_column="0"
             android:onClick="donePressed"/>
     </GridLayout>

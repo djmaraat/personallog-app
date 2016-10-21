@@ -1,4 +1,4 @@
-package com.djmaraat.apps.policelog.Adapters;
+package com.djmaraat.apps.policelog.adapters;
 
 import android.app.Activity;
 import android.view.View;
@@ -8,8 +8,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.djmaraat.apps.policelog.Entities.Vehicle;
-import com.djmaraat.apps.policelog.PoliceLogDBHelper;
+import com.djmaraat.apps.policelog.entities.Vehicle;
+import com.djmaraat.apps.policelog.data.PoliceLogDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;

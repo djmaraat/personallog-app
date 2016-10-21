@@ -17,4 +17,19 @@
     <string name="add_to_record">Add to Record</string>
     <string name="date_mmddyy">MM/DD/YY</string>
 
+    <string name="owner_name">Owner Name</string>
+    <string name="driver_name">Driver Name</string>
+    <string name="driver_license_num">Driver License</string>
+    <string name="make">Make</string>
+    <string name="color">Color</string>
+    <string name="or">Official Receipt</string>
+    <string name="cr">Certificate of Registration</string>
+    <string name="engine_num">Engine Number</string>
+    <string name="chassis_num">Chassis Number</string>
+    <string name="contact_num">Contact Number</string>
+    <string name="address">Address</string>
+    <string name="checkpoint_loc">Checkpoint Location</string>
+    <string name="date_recorded">Date Logged</string>
+
+
 </resources>

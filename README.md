@@ -12,10 +12,8 @@ More details coming soon.
 
 ### Todos
 
- - Write Tests
- - Rethink Github Save
- - Add Code Comments
- - Add Night Mode
+ - Complete CRUD functionalities
+ - Search
 
 License
 ----

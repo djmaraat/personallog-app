@@ -58,8 +58,9 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
 
         // insert to the vehicle table, return false if there is a duplicate item
         try {
-            // insertWithOnConflict throws a constraint exception if constraint is violated
-            database.insertWithOnConflict(PoliceLogContract.VehicleTable.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_FAIL);
+            // insertOrThrow throws a constraint exception if constraint is violated
+            database.insertOrThrow(PoliceLogContract.VehicleTable.TABLE_NAME, null, values);
+
         } catch (SQLiteConstraintException sqEx) {
             return false;
         } finally {
@@ -85,7 +86,7 @@ public class PoliceLogDBHelper extends SQLiteOpenHelper {
         // insert to the vehicle table, return false if there is a duplicate item
         try {
             // insertWithOnConflict throws a constraint exception if constraint is violated
-            database.insertWithOnConflict(PoliceLogContract.UserTable.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_FAIL);
+            database.insertOrThrow(PoliceLogContract.UserTable.TABLE_NAME, null, values);
         } catch (SQLiteConstraintException sqEx) {
             return false;
         }
